@@ -1,11 +1,8 @@
 
-// TODO: Create a function to initialize app
-//function init() { }
-
-// Function call to initialize app
 
 
 
+//grabbing inquirer to ask the questions
 const inquirer = require('inquirer');
 const fs = require('fs');
 var info = []
@@ -37,7 +34,7 @@ inquirer
       type: 'list',
       name: 'license',
       message: 'What kind of license should your project have?',
-      choices: ['MIT', 'Mozilla', 'Google', 'Drucifer']
+      choices: ['MIT', 'Mozilla', 'GNU GPL',]
     },
     {
       type: 'input',
@@ -65,24 +62,58 @@ inquirer
     info.push(data)
     for (const index of info) {
     }
+
+    //Checking for what was selected for the license and applying the corresponding badge
+    if (data.license === 'Mozilla Public License 2.0') {
+      data.License = '[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)'
+  }
+  if (data.license === 'GNU GPL v3') {
+      data.License = '[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)'
+  } else {
+      data.license = '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)'
+  }
     //console.log(data);
     // write code between the <div> tags to output your objects data
-    const readmefile = `
+    const readmefile = 
+`# ${data.name}
 
-    # ${data.name}
+### ${data.description}
     
-    ## ${data.description}
+## Table of Contents
     
-    ${data.name} ${data.git} ${data.email} ${data.description} ${data.license} ${data.install} ${data.test} ${data.know} ${data.contribute}
+  *   [Installation](#Installation)
+  *   [Usage](#Usage)
+  *   [License](#License)
+  *   [Contributing](#Contributing)
+  *   [Tests](#Tests)
+  *   [Questions](#Questions)
+    
+### Installation
+    
+${data.install}
+    
+### Usage
+    
+${data.know}
+    
+### License
+    
+${data.license}
+    
+### Contributing
+    
+${data.contribute}
+    
+### Tests
+    
+${data.test}
+    
+### Questions
+    
+If you have any questions please visit my GitHub profile https://github.com/${data.git} or shoot me an email at ${data.email}`;
+    //Checking the filename and making sure its converted to lowercase without spaces, also console logging success or error    
 
-    ## Your Task
-    [This is *some red text*]{.red}
-    
-    When creating an open source project on GitHub, it’s important to have a high-quality README for the app. This should include what the app is for, how to use the app, how to install it, how to report issues, and how to make contributions&mdash;this last part increases the likelihood that other developers will contribute to the success of the project. 
-    
-    You can quickly and easily create a README file by using a command-line application to generate one. This allows the project creator to devote more time to working on the project.
-        `;
-    (data.name) ? console.log("You're temi") : console.log("You're not temi");
+    (data.name) ? console.log("You've created a Readme!") : console.log("Error, try again");
     const filename = `${data.name.toLowerCase().split(' ').join('')}.MD`;
     fs.writeFile(filename, readmefile, (err) =>
       err ? console.log(err) : console.log('Success!')
